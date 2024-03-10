@@ -1,5 +1,13 @@
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Recipe } from "@/types/globals";
+import { TooltipPortal } from "@radix-ui/react-tooltip";
 import dayjs from "dayjs";
+import { BsHeartFill } from "react-icons/bs";
 
 interface Props {
   recipe: Recipe;
@@ -19,6 +27,25 @@ const RecipeCard = ({ recipe }: Props) => {
           alt="Recipe Image"
         />
       </div>
+      {recipe.isFavorite && (
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger>
+              <div className="absolute top-0 right-0 z-20 m-0 pt-4 pe-4">
+                <div className="p-2 bg-gray-50 rounded-full">
+                  <BsHeartFill size="20" className="text-red-500 h-3 w-3" />
+                </div>
+              </div>
+            </TooltipTrigger>
+            <TooltipPortal>
+              <TooltipContent>
+                <p>In favorites</p>
+              </TooltipContent>
+            </TooltipPortal>
+          </Tooltip>
+        </TooltipProvider>
+      )}
+
       <div className="absolute bottom-0 z-20 m-0 pb-4 ps-4 transition duration-300 ease-in-out group-hover:-translate-y-1 group-hover:translate-x-3 group-hover:scale-110 ">
         <h4 className="text-2xl font-bold text-white">{recipe.title}</h4>
         <p className="text-sm font-light text-gray-200">
