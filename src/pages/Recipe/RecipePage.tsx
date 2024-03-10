@@ -6,6 +6,7 @@ import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useParams } from "react-router-dom";
+import Ingredients from "./components/Ingredients";
 
 const RecipePage = () => {
   const { id } = useParams();
@@ -45,42 +46,36 @@ const RecipePage = () => {
       {isError && <p>Doslo je do greske pri ucitavanju.</p>}
       {isLoading && <Spinner />}
       {recipe && (
-        <>
-          <div className="flex gap-4">
-            <h1 className="text-4xl font-bold mb-8 flex ">{recipe.title} </h1>
-            <Button variant="secondary" onClick={() => mutate()}>
-              {recipe.isFavorite ? (
-                <BsHeartFill size="12" className="mr-2 text-red-500" />
-              ) : (
-                <BsHeart size="12" className="mr-2" />
-              )}
-              {recipe.isFavorite ? "Remove from favorites" : "Add to favorites"}
-            </Button>
+        <div className="flex gap-4">
+          <div>
+            <div className="flex gap-4">
+              <h1 className="text-4xl font-bold mb-8 flex ">{recipe.title} </h1>
+              <Button variant="secondary" onClick={() => mutate()}>
+                {recipe.isFavorite ? (
+                  <BsHeartFill size="12" className="mr-2 text-red-500" />
+                ) : (
+                  <BsHeart size="12" className="mr-2" />
+                )}
+                {recipe.isFavorite
+                  ? "Remove from favorites"
+                  : "Add to favorites"}
+              </Button>
+            </div>
+            <div className="w-[650px] mb-4">
+              <AspectRatio ratio={16 / 9}>
+                <img
+                  src={recipe.image}
+                  className="rounded-md object-cover w-full h-full"
+                />
+              </AspectRatio>
+            </div>
+            <div
+              className="prose prose-sm sm:prose lg:prose-md xl:prose-lg"
+              dangerouslySetInnerHTML={{ __html: recipe.content }}
+            />
           </div>
-          <div className="w-[650px] mb-4">
-            <AspectRatio ratio={16 / 9}>
-              <img
-                src={recipe.image}
-                className="rounded-md object-cover w-full h-full"
-              />
-            </AspectRatio>
-          </div>
-          <h2 className="text-2xl font-bold mb-2">Sastojci:</h2>
-          <ul className="mb-2">
-            {recipe.ingredients &&
-              recipe.ingredients.map((i) => (
-                <li>
-                  <span>{i.quantity}x</span>
-                  {i.name}
-                </li>
-              ))}
-          </ul>
-          <h2 className="text-2xl font-bold mb-2">Nacin pripreme:</h2>
-          <div
-            className="prose prose-sm sm:prose lg:prose-md xl:prose-lg"
-            dangerouslySetInnerHTML={{ __html: recipe.content }}
-          />
-        </>
+          <Ingredients className="mt-16" recipe={recipe} />
+        </div>
       )}
     </FullLayout>
   );
