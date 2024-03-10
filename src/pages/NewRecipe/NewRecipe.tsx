@@ -111,8 +111,8 @@ const NewRecipe = () => {
     <FullLayout>
       {isLoading ||
         (isSuccess && (
-          <div className="absolute w-full h-full bg-gray-50 top-0 bottom-0 left-0 right-0 z-30 sm:ml-64 flex items-center justify-center opacity-75">
-            <Spinner className="opacity-100" />
+          <div className="absolute w-screen h-screen bg-gray-50 top-0 bottom-0 left-0 right-0 z-30  flex items-center justify-center opacity-75">
+            <Spinner className="opacity-100 sm:ml-64" />
           </div>
         ))}
       <h1 className="text-4xl font-bold mb-4">Add new recipe</h1>
@@ -167,9 +167,6 @@ const NewRecipe = () => {
             <Ingredients />
 
             <Button type="submit">Submit</Button>
-            <Button onClick={() => console.log(form.getValues())}>
-              Get Data
-            </Button>
           </form>
         </Form>
       </FormProvider>
