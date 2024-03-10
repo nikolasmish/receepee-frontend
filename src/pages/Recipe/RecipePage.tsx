@@ -43,7 +43,7 @@ const RecipePage = () => {
 
   return (
     <FullLayout>
-      {isError && <p>Doslo je do greske pri ucitavanju.</p>}
+      {isError && <p>There was an error loading that recipe.</p>}
       {isLoading && <Spinner />}
       {recipe && (
         <div className="flex gap-4">

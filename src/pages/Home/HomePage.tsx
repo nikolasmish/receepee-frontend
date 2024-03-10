@@ -23,7 +23,7 @@ const HomePage = () => {
           ))}
         </div>
       )}
-      {isError && <p>Doslo je do greske pri ucitavanju.</p>}
+      {isError && <p>There was an error getting all recipes.</p>}
       {isLoading && <Spinner />}
     </FullLayout>
   );
