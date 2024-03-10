@@ -7,6 +7,10 @@ export type Recipe = {
   prepareTimeInMinutes: number;
   isFavorite: boolean;
   dateAdded: string;
+  category: {
+    categoryId: number;
+    name: string;
+  };
 };
 
 export type Ingredient = {

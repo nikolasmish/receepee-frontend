@@ -2,7 +2,7 @@ import { FullLayout } from "@/layouts";
 import { useMutation } from "react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -21,6 +21,14 @@ import { compressImageAndConvertToBase64 } from "./utils";
 import { toast } from "@/components/ui/use-toast";
 import Spinner from "@/components/ui/spinner";
 import { ToastAction } from "@/components/ui/toast";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
@@ -114,6 +122,19 @@ const NewRecipe = () => {
             <Spinner className="opacity-100 sm:ml-64" />
           </div>
         ))}
+      <Breadcrumb className="mb-4">
+        <BreadcrumbList>
+          <BreadcrumbItem>
+            <BreadcrumbLink asChild>
+              <Link to="/">Home</Link>
+            </BreadcrumbLink>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>New Recipe</BreadcrumbPage>
+          </BreadcrumbItem>
+        </BreadcrumbList>
+      </Breadcrumb>
       <h1 className="text-4xl font-bold mb-4">Add new recipe</h1>
 
       <FormProvider {...form}>
