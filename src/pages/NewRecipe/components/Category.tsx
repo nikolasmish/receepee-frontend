@@ -22,7 +22,7 @@ const Category = () => {
   const form = useFormContext();
 
   const { data } = useQuery<TCategory[]>("categories", () =>
-    fetch("/api/Recipes/category").then((data) => data.json()),
+    fetch("/api/Categories").then((data) => data.json()),
   );
 
   return (
