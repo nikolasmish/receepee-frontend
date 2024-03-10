@@ -4,6 +4,7 @@ export type Recipe = {
   content: string;
   image: string;
   ingredients?: Ingredient[];
+  isFavorite: boolean;
   dateAdded: string;
 };
 
