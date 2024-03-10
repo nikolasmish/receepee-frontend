@@ -5,9 +5,9 @@ import { BsFiles, BsFilePlus, BsCart } from "react-icons/bs";
 const FullLayout = (props: PropsWithChildren) => {
   return (
     <main>
-      <div className="p-4 sm:ml-64 sm:mt-12">{props.children}</div>
+      <div className="p-8 sm:ml-64 sm:mt-12">{props.children}</div>
 
-      <div className="h-screen w-screen bg-white dark:bg-slate-900">
+      <div className="bg-white dark:bg-slate-900">
         <aside
           id="sidebar"
           className="fixed left-0 top-0 z-40 h-screen w-64 transition-transform"
