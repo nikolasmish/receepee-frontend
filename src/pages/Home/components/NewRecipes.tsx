@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import Spinner from "@/components/ui/spinner";
 
 const NewRecipes = () => {
-  const { data, isLoading, isError } = useQuery<Recipe[]>("recipes", () =>
+  const { data, isLoading, isError } = useQuery<Recipe[]>("newRecipes", () =>
     fetch("/api/Recipes/new").then((res) => res.json()),
   );
 
