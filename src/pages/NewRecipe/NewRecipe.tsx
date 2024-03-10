@@ -104,7 +104,6 @@ const NewRecipe = () => {
       category: { name: data.category },
     };
     mutate(apiData as any);
-    console.log(await compressImageAndConvertToBase64(data.image.item(0)));
   }
 
   return (
