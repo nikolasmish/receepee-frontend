@@ -12,7 +12,7 @@ const Ingredients = ({ recipe, ...rest }: Props) => {
       <ul className="list-disc mb-2">
         {recipe.ingredients &&
           recipe.ingredients.map((i) => (
-            <li className="ml-4">
+            <li className="ml-4 mb-2">
               <span>{i.quantity} </span>
               {i.name}
             </li>
