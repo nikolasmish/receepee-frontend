@@ -6,6 +6,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { HomePage, NewRecipe, RecipePage, FavoritesPage } from "./pages";
 
 import "./index.css";
+import { CartPage } from "./pages/Cart";
 
 const client = new QueryClient();
 
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
   {
     path: "favorites",
     element: <FavoritesPage />,
+  },
+  {
+    path: "cart",
+    element: <CartPage />,
   },
 ]);
 
