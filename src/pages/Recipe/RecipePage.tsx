@@ -83,7 +83,7 @@ const RecipePage = () => {
               dangerouslySetInnerHTML={{ __html: recipe.content }}
             />
           </div>
-          <Ingredients className="mt-16" recipe={recipe} />
+          <Ingredients className="mt-28" recipe={recipe} />
         </div>
       )}
     </FullLayout>

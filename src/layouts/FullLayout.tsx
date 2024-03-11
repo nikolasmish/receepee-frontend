@@ -1,6 +1,6 @@
 import { PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
-import { BsFiles, BsFilePlus, BsCart } from "react-icons/bs";
+import { BsFiles, BsFilePlus, BsCart, BsHeart } from "react-icons/bs";
 
 const FullLayout = (props: PropsWithChildren) => {
   return (
@@ -44,13 +44,23 @@ const FullLayout = (props: PropsWithChildren) => {
               </li>
               <li>
                 <Link
-                  to="/namirnice"
+                  to="/favorites"
+                  className="flex items-center rounded-lg px-3 py-2 text-slate-900 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700"
+                >
+                  <BsHeart size="20" />
+                  <span className="ml-3 flex-1 whitespace-nowrap">
+                    Favorites
+                  </span>
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/cart"
                   className="flex items-center rounded-lg px-3 py-2 text-slate-900 hover:bg-slate-100 dark:text-white dark:hover:bg-slate-700"
                 >
                   <BsCart size="20" />
-                  <span className="ml-3 flex-1 whitespace-nowrap">
-                    Shopping
-                  </span>
+                  <span className="ml-3 flex-1 whitespace-nowrap">Cart</span>
                 </Link>
               </li>
               <li>

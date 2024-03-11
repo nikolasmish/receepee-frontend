@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { HomePage, NewRecipe, RecipePage } from "./pages";
+import { HomePage, NewRecipe, RecipePage, FavoritesPage } from "./pages";
 
 import "./index.css";
 
@@ -21,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "new-recipe",
     element: <NewRecipe />,
+  },
+  {
+    path: "favorites",
+    element: <FavoritesPage />,
   },
 ]);
 
