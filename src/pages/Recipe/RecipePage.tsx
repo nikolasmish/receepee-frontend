@@ -68,8 +68,8 @@ const RecipePage = () => {
               {recipe.prepareTimeInMinutes} min
             </span>
             <ChangeFavorite recipe={recipe} id={id} />
-            <DeleteRecipe id={id} />
             <AddToCart recipe={recipe} />
+            <DeleteRecipe id={id} />
           </div>
 
           <div className="flex gap-4">
