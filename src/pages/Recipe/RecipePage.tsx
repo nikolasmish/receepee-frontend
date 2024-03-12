@@ -18,6 +18,10 @@ import {
 } from "@/components/ui/breadcrumb";
 import AddToCart from "./components/AddToCart";
 import { request } from "@/api/request";
+import dayjs from "dayjs";
+import duration from "dayjs/plugin/duration";
+
+dayjs.extend(duration);
 
 const RecipePage = () => {
   const { id } = useParams();
@@ -58,19 +62,26 @@ const RecipePage = () => {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>{recipe.title}</BreadcrumbPage>
+                <BreadcrumbPage className="text-ellipsis overflow-hidden">
+                  {recipe.title}
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
-          <div className="flex gap-4 items-center mb-8">
-            <h1 className="text-4xl font-bold flex ">{recipe.title}</h1>
-            <span className="flex items-center">
-              <BsClock size="16" className="mr-2" />{" "}
-              {recipe.prepareTimeInMinutes} min
-            </span>
-            <ChangeFavorite recipe={recipe} id={id} />
-            <AddToCart recipe={recipe} />
-            <DeleteRecipe id={id} />
+          <div className="flex-col gap-4 items-center mb-8">
+            <h1 className="text-4xl font-bold mb-4 break-words">
+              {recipe.title}
+            </h1>
+            <div className="flex gap-4 items-center">
+              <span className="flex items-center">
+                <BsClock size="16" className="mr-2" />{" "}
+                {/* {recipe.prepareTimeInMinutes} min */}
+                <p>{dayjs.duration(90, "minute").format("H[h] m[m]")}</p>
+              </span>
+              <ChangeFavorite recipe={recipe} id={id} />
+              <AddToCart recipe={recipe} />
+              <DeleteRecipe id={id} />
+            </div>
           </div>
 
           <div className="flex gap-4">

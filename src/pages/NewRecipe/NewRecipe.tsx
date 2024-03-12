@@ -30,6 +30,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { request } from "@/api/request";
+import { useState } from "react";
 
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
@@ -57,9 +58,12 @@ const ingredientsSchema = z.object({
 });
 
 const FormSchema = z.object({
-  title: z.string().min(1, {
-    message: "Title is required",
-  }),
+  title: z
+    .string()
+    .min(5, {
+      message: "Title is too short",
+    })
+    .max(30, { message: "Title is too long" }),
   instructions: z.string().min(20, { message: "Instructions are too short!" }),
   image: z
     .instanceof(FileList)
@@ -75,14 +79,18 @@ const FormSchema = z.object({
     .array(ingredientsSchema)
     .min(1, { message: "Minimum 1 ingredient is required." }),
   category: z.string(),
+  prepareTimeInMinutes: z.coerce
+    .number({ invalid_type_error: "Invalid input" })
+    .min(1, { message: "Time to prepare must be greater than 1 minute" }),
 });
 
 const NewRecipe = () => {
+  const [isImageCompressInProgress, setIsImageCompressInProgress] =
+    useState(false);
   const navigate = useNavigate();
   const { mutate, isLoading, isSuccess } = useMutation({
     retry: 2,
     mutationFn: async (recipe: MutateData) => {
-      console.log("called");
       return await request.post("Recipes", {
         json: recipe,
       });
@@ -111,14 +119,19 @@ const NewRecipe = () => {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       ingredients: [{ name: "3 whole eggs & 1 egg yolk" }],
+      prepareTimeInMinutes: 60,
     },
   });
   const imageRef = form.register("image");
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
+    setIsImageCompressInProgress(true);
     const compressedBase64Image = await compressImageAndConvertToBase64(
       data.image.item(0),
     );
+
+    setIsImageCompressInProgress(false);
+
     const apiData: MutateData = {
       ...data,
       image: compressedBase64Image,
@@ -185,6 +198,20 @@ const NewRecipe = () => {
             />
             <FormField
               control={form.control}
+              name="prepareTimeInMinutes"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Time to prepare (in minutes)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="60" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
               name="instructions"
               render={({ field }) => (
                 <FormItem>
@@ -192,14 +219,16 @@ const NewRecipe = () => {
                   <FormControl>
                     <ContentEditor {...field} />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}
             />
             <Ingredients />
 
-            <Button type="submit" disabled={isLoading}>
+            <Button
+              type="submit"
+              disabled={isLoading || isImageCompressInProgress}
+            >
               Submit
             </Button>
           </form>
