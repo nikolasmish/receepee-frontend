@@ -4,10 +4,11 @@ import { Recipe } from "@/types/globals";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import NewRecipes from "./components/NewRecipes";
+import { request } from "@/api/request";
 
 const HomePage = () => {
   const { data, isLoading, isError } = useQuery<Recipe[]>("recipes", () =>
-    fetch("/api/Recipes").then((res) => res.json()),
+    request("Recipes").json<Recipe[]>(),
   );
 
   return (

@@ -10,10 +10,11 @@ import { Recipe } from "@/types/globals";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
 import Spinner from "@/components/ui/spinner";
+import { request } from "@/api/request";
 
 const NewRecipes = () => {
   const { data, isLoading, isError } = useQuery<Recipe[]>("newRecipes", () =>
-    fetch("/api/Recipes/new").then((res) => res.json()),
+    request("Recipes/new").json<Recipe[]>(),
   );
 
   return (

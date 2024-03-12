@@ -1,3 +1,4 @@
+import { request } from "@/api/request";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -22,12 +23,7 @@ const DeleteRecipe = ({ id }: Props) => {
 
   const { mutate, isLoading } = useMutation({
     mutationFn: () => {
-      return fetch(`/api/Recipes/${id}`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      return request.delete(`Recipes/${id}`);
     },
     onSuccess: () => {
       toast({

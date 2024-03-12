@@ -1,7 +1,7 @@
 export type Recipe = {
   id: number;
   title: string;
-  content: string;
+  instructions: string;
   image: string;
   ingredients?: Ingredient[];
   prepareTimeInMinutes: number;
@@ -20,6 +20,6 @@ export type Ingredient = {
 };
 
 export type Category = {
-  id: number;
+  categoryId: number;
   name: string;
 };

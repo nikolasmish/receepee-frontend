@@ -12,6 +12,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
+import { request } from "@/api/request";
 
 const FavoritesPage = () => {
   const {
@@ -19,7 +20,7 @@ const FavoritesPage = () => {
     isLoading,
     isError,
   } = useQuery<Recipe[]>("favorites", () =>
-    fetch(`/api/Recipes/favorites`).then((res) => res.json()),
+    request(`Recipes/favorites`).json<Recipe[]>(),
   );
 
   return (
@@ -42,7 +43,7 @@ const FavoritesPage = () => {
                 </BreadcrumbItem>
               </BreadcrumbList>
             </Breadcrumb>
-            <h2 className="text-4xl font-bold mb-4">All Recipes</h2>
+            <h2 className="text-4xl font-bold mb-4">Favorites</h2>
           </div>
           <div>
             {favorites.map((f) => (

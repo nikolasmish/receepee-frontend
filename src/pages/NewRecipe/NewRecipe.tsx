@@ -29,6 +29,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { request } from "@/api/request";
 
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
@@ -37,40 +38,53 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/webp",
 ];
 
+type MutateData = {
+  image: string;
+  category: {
+    name: string;
+  };
+  title: string;
+  instructions: string;
+  ingredients: {
+    name: string;
+  }[];
+};
+
 const ingredientsSchema = z.object({
-  name: z.string(),
-  quantity: z.number(),
+  name: z
+    .string()
+    .min(4, { message: "Add more context (eg. a dozen of eggs, 150g butter)" }),
 });
 
 const FormSchema = z.object({
   title: z.string().min(1, {
     message: "Title is required",
   }),
-  content: z.string().min(20, { message: "Content is too short!" }),
+  instructions: z.string().min(20, { message: "Instructions are too short!" }),
   image: z
     .instanceof(FileList)
-    .refine(
-      (file) =>
-        ACCEPTED_IMAGE_TYPES.includes(
-          file && file.item(0) && (file.item(0)?.type as any),
-        ),
-      "Only .jpg, .jpeg, .png and .webp formats are supported.",
-    ),
-  ingredients: z.array(ingredientsSchema),
+    .refine((file) => file.length !== 0, "Image is required.")
+    .refine((file) => {
+      const imageFile = file.item(0);
+
+      if (!imageFile) return false;
+
+      return ACCEPTED_IMAGE_TYPES.includes(imageFile.type);
+    }, "Only .jpg, .jpeg, .png and .webp formats are supported."),
+  ingredients: z
+    .array(ingredientsSchema)
+    .min(1, { message: "Minimum 1 ingredient is required." }),
   category: z.string(),
 });
 
 const NewRecipe = () => {
   const navigate = useNavigate();
   const { mutate, isLoading, isSuccess } = useMutation({
-    retry: 3,
-    mutationFn: (recipe) => {
-      return fetch("/api/Recipes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(recipe),
+    retry: 2,
+    mutationFn: async (recipe: MutateData) => {
+      console.log("called");
+      return await request.post("Recipes", {
+        json: recipe,
       });
     },
     onSuccess: () => {
@@ -80,7 +94,7 @@ const NewRecipe = () => {
       });
       setTimeout(() => navigate("/"), 1500);
     },
-    onError: (data) => {
+    onError: (data: MutateData) => {
       toast({
         title: "Failed to create recipe",
         description: "There was an error creating a recipe, please try again.",
@@ -96,26 +110,25 @@ const NewRecipe = () => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      ingredients: [{ name: "jaja", quantity: 2 }],
+      ingredients: [{ name: "3 whole eggs & 1 egg yolk" }],
     },
   });
   const imageRef = form.register("image");
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-    console.log(data);
     const compressedBase64Image = await compressImageAndConvertToBase64(
       data.image.item(0),
     );
-    const apiData = {
+    const apiData: MutateData = {
       ...data,
       image: compressedBase64Image,
       category: { name: data.category },
     };
-    mutate(apiData as any);
+    mutate(apiData);
   }
 
   return (
-    <FullLayout>
+    <FullLayout withSearch={false}>
       {isLoading ||
         (isSuccess && (
           <div className="absolute w-screen h-screen bg-gray-50 top-0 bottom-0 left-0 right-0 z-30  flex items-center justify-center opacity-75">
@@ -172,10 +185,10 @@ const NewRecipe = () => {
             />
             <FormField
               control={form.control}
-              name="content"
+              name="instructions"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Content</FormLabel>
+                  <FormLabel>Instructions</FormLabel>
                   <FormControl>
                     <ContentEditor {...field} />
                   </FormControl>
@@ -186,7 +199,9 @@ const NewRecipe = () => {
             />
             <Ingredients />
 
-            <Button type="submit">Submit</Button>
+            <Button type="submit" disabled={isLoading}>
+              Submit
+            </Button>
           </form>
         </Form>
       </FormProvider>

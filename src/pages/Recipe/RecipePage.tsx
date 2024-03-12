@@ -17,6 +17,7 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import AddToCart from "./components/AddToCart";
+import { request } from "@/api/request";
 
 const RecipePage = () => {
   const { id } = useParams();
@@ -25,7 +26,7 @@ const RecipePage = () => {
     isLoading,
     isError,
   } = useQuery<Recipe>(["recipe", id], () =>
-    fetch(`/api/Recipes/${id}`).then((res) => res.json()),
+    request.get(`Recipes/${id}`).json<Recipe>(),
   );
 
   return (
@@ -84,7 +85,7 @@ const RecipePage = () => {
               </div>
               <div
                 className="prose prose-sm sm:prose lg:prose-md xl:prose-lg"
-                dangerouslySetInnerHTML={{ __html: recipe.content }}
+                dangerouslySetInnerHTML={{ __html: recipe.instructions }}
               />
             </div>
             <Ingredients recipe={recipe} />

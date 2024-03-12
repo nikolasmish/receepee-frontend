@@ -1,4 +1,6 @@
+import { request } from "@/api/request";
 import { Button } from "@/components/ui/button";
+import Spinner from "@/components/ui/spinner";
 import { Recipe } from "@/types/globals";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { useMutation, useQueryClient } from "react-query";
@@ -11,14 +13,10 @@ interface Props {
 const ChangeFavorite = ({ recipe, id }: Props) => {
   const queryClient = useQueryClient();
 
-  const { mutate } = useMutation({
+  const { mutate, isLoading } = useMutation({
     mutationFn: () => {
-      return fetch(`/api/Recipes/favorite/${id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ favorite: recipe && recipe.isFavorite }),
+      return request.post(`Recipes/favorite/${id}`, {
+        json: { favorite: recipe && recipe.isFavorite },
       });
     },
     onSuccess: () => {
@@ -37,6 +35,7 @@ const ChangeFavorite = ({ recipe, id }: Props) => {
     <Button
       variant="secondary"
       className={`transition-colors ${recipe.isFavorite ? "bg-red-50 hover:bg-red-100" : ""}`}
+      disabled={isLoading}
       onClick={() => mutate()}
     >
       {recipe.isFavorite ? (

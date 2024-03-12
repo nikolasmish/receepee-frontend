@@ -1,11 +1,28 @@
 import { PropsWithChildren } from "react";
 import { Link } from "react-router-dom";
-import { BsFiles, BsFilePlus, BsCart, BsHeart } from "react-icons/bs";
+import { BsFiles, BsFilePlus, BsCart, BsHeart, BsSearch } from "react-icons/bs";
+import { Input } from "@/components/ui/input";
+import clsx from "clsx";
 
-const FullLayout = (props: PropsWithChildren) => {
+interface Props extends PropsWithChildren {
+  withSearch?: boolean;
+}
+
+const FullLayout = (props: Props) => {
+  const { withSearch = true } = props;
   return (
     <main>
-      <div className="p-8 sm:ml-64 sm:mt-12">{props.children}</div>
+      {withSearch && (
+        <div className="sm:ml-64 p-4 px-8">
+          <div className="relative h-10 w-1/3">
+            <BsSearch className="absolute left-3 top-1/2 transform -translate-y-[60%] text-gray-500 z-10" />
+            <Input type="search" placeholder="Find recipe" className="pl-10" />
+          </div>
+        </div>
+      )}
+      <div className={`px-8 sm:ml-64 ${clsx({ "mt-[72px]": !withSearch })}`}>
+        {props.children}
+      </div>
 
       <div className="bg-white dark:bg-slate-900">
         <aside

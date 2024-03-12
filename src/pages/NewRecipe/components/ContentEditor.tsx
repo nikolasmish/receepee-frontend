@@ -1,7 +1,23 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import React from "react";
+import { ControllerRenderProps } from "react-hook-form";
 
-const ContentEditor = ({ onChange }) => {
+interface Props
+  extends ControllerRenderProps<
+    {
+      title: string;
+      instructions: string;
+      image: FileList;
+      ingredients: {
+        name: string;
+      }[];
+      category: string;
+    },
+    "instructions"
+  > {}
+
+const ContentEditor = React.forwardRef(({ onChange }: Props, ref) => {
   const editor = useEditor({
     extensions: [StarterKit],
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
@@ -13,7 +29,7 @@ const ContentEditor = ({ onChange }) => {
     },
   });
 
-  return <EditorContent editor={editor} />;
-};
+  return <EditorContent ref={ref as any} editor={editor} />;
+});
 
 export default ContentEditor;

@@ -17,12 +17,13 @@ import {
 import { Link } from "react-router-dom";
 import { useQuery } from "react-query";
 import { Category as TCategory } from "@/types/globals";
+import { request } from "@/api/request";
 
 const Category = () => {
   const form = useFormContext();
 
   const { data } = useQuery<TCategory[]>("categories", () =>
-    fetch("/api/Categories").then((data) => data.json()),
+    request("Categories").json<TCategory[]>(),
   );
 
   return (
@@ -41,7 +42,7 @@ const Category = () => {
             <SelectContent>
               {data &&
                 data.map((i) => (
-                  <SelectItem key={i.id} value={i.name}>
+                  <SelectItem key={i.categoryId} value={i.name}>
                     {i.name}
                   </SelectItem>
                 ))}

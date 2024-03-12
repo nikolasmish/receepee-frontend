@@ -9,7 +9,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useFieldArray, useFormContext } from "react-hook-form";
 import { BsTrash } from "react-icons/bs";
-import { FaMinus, FaPlus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 
 const Ingredients = () => {
   const form = useFormContext();
@@ -25,63 +25,29 @@ const Ingredients = () => {
           <div key={field.id} className="flex gap-2">
             <FormField
               control={form.control}
-              name={`ingredients.${index}.quantity`}
+              name={`ingredients.${index}.name`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Ingredient {index + 1}</FormLabel>
                   <FormControl>
-                    <div className="flex gap-1 items-center">
-                      <Button
-                        type="button"
-                        onClick={() => field.onChange(field.value - 1)}
-                        variant="ghost"
-                        size="icon"
-                        disabled={field.value <= 1}
-                      >
-                        <FaMinus size="8" />
-                      </Button>
-
-                      {field.value}
-                      <Button
-                        type="button"
-                        onClick={() => field.onChange(field.value + 1)}
-                        variant="ghost"
-                        size="icon"
-                      >
-                        <FaPlus size="8" />
-                      </Button>
+                    <div className="relative h-10">
+                      {index !== 0 && (
+                        <BsTrash
+                          className="absolute right-3 top-1/2 transform -translate-y-[60%] text-gray-500 z-10 hover:bg-red-200 rounded-full"
+                          onClick={() => remove(index)}
+                        />
+                      )}
+                      <Input
+                        placeholder="Find recipe"
+                        className="pr-10"
+                        {...field}
+                      />
                     </div>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
-
-            <FormField
-              control={form.control}
-              name={`ingredients.${index}.name`}
-              render={({ field }) => (
-                <FormItem className="mt-auto">
-                  <FormLabel></FormLabel>
-                  <FormControl>
-                    <Input
-                      className="!mt-0 h-10"
-                      placeholder="Ingredient Name"
-                      {...field}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <Button
-              className="mt-auto"
-              type="button"
-              size="icon"
-              onClick={() => remove(index)}
-              variant="destructive"
-            >
-              <BsTrash />
-            </Button>
           </div>
         );
       })}
