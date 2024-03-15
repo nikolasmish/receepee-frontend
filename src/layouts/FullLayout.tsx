@@ -1,27 +1,35 @@
-import { PropsWithChildren } from "react";
-import { Link } from "react-router-dom";
+import { Link, Outlet, useNavigate, useSearchParams } from "react-router-dom";
 import { BsFiles, BsFilePlus, BsCart, BsHeart, BsSearch } from "react-icons/bs";
 import { Input } from "@/components/ui/input";
-import clsx from "clsx";
+import { useState } from "react";
 
-interface Props extends PropsWithChildren {
-  withSearch?: boolean;
-}
+const FullLayout = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const [search, setSearch] = useState(searchParams.get("q") || "");
 
-const FullLayout = (props: Props) => {
-  const { withSearch = true } = props;
+  const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    if (e.target.value.length < 3) return;
+    navigate(`/search?q=${e.target.value}`);
+  };
+
   return (
     <main>
-      {withSearch && (
-        <div className="sm:ml-64 p-4 px-8">
-          <div className="relative h-10 w-1/3">
-            <BsSearch className="absolute left-3 top-1/2 transform -translate-y-[60%] text-gray-500 z-10" />
-            <Input type="search" placeholder="Find recipe" className="pl-10" />
-          </div>
+      <div className="sm:ml-64 p-4 px-8">
+        <div className="relative h-10 w-1/3">
+          <BsSearch className="absolute left-3 top-1/2 transform -translate-y-[60%] text-gray-500 z-10" />
+          <Input
+            onChange={onSearch}
+            value={search}
+            type="search"
+            placeholder="Find recipe"
+            className="pl-10"
+          />
         </div>
-      )}
-      <div className={`px-8 sm:ml-64 ${clsx({ "mt-[72px]": !withSearch })}`}>
-        {props.children}
+      </div>
+      <div className="px-8 sm:ml-64">
+        <Outlet />
       </div>
 
       <div className="bg-white dark:bg-slate-900">

@@ -1,5 +1,4 @@
 import Spinner from "@/components/ui/spinner";
-import { FullLayout } from "@/layouts";
 import { Recipe } from "@/types/globals";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
@@ -12,7 +11,7 @@ const HomePage = () => {
   );
 
   return (
-    <FullLayout>
+    <div>
       <NewRecipes />
       <h2 className="text-4xl font-bold mb-4">All Recipes</h2>
       {data && (
@@ -24,9 +23,9 @@ const HomePage = () => {
           ))}
         </div>
       )}
-      {isError && <p>There was an error getting all recipes.</p>}
+      {isError && <p>There was an error loading all recipes.</p>}
       {isLoading && <Spinner />}
-    </FullLayout>
+    </div>
   );
 };
 

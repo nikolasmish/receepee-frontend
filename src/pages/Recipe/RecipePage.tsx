@@ -1,5 +1,4 @@
 import Spinner from "@/components/ui/spinner";
-import { FullLayout } from "@/layouts";
 import { Recipe } from "@/types/globals";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 import { useQuery } from "react-query";
@@ -34,7 +33,7 @@ const RecipePage = () => {
   );
 
   return (
-    <FullLayout>
+    <div>
       {isError && <p>There was an error loading that recipe.</p>}
       {isLoading && <Spinner />}
       {recipe && (
@@ -75,8 +74,11 @@ const RecipePage = () => {
             <div className="flex gap-4 items-center">
               <span className="flex items-center">
                 <BsClock size="16" className="mr-2" />{" "}
-                {/* {recipe.prepareTimeInMinutes} min */}
-                <p>{dayjs.duration(90, "minute").format("H[h] m[m]")}</p>
+                <p>
+                  {dayjs
+                    .duration(recipe.prepareTimeInMinutes, "minute")
+                    .format("H[h] m[m]")}
+                </p>
               </span>
               <ChangeFavorite recipe={recipe} id={id} />
               <AddToCart recipe={recipe} />
@@ -103,7 +105,7 @@ const RecipePage = () => {
           </div>
         </div>
       )}
-    </FullLayout>
+    </div>
   );
 };
 

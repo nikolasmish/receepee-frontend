@@ -3,33 +3,50 @@ import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { HomePage, NewRecipe, RecipePage, FavoritesPage } from "./pages";
+import {
+  HomePage,
+  NewRecipe,
+  RecipePage,
+  FavoritesPage,
+  CartPage,
+  SearchPage,
+} from "./pages";
 
 import "./index.css";
-import { CartPage } from "./pages/Cart";
+import { FullLayout as Root } from "./layouts";
 
 const client = new QueryClient();
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <HomePage />,
-  },
-  {
-    path: "recipe/:id",
-    element: <RecipePage />,
-  },
-  {
-    path: "new-recipe",
-    element: <NewRecipe />,
-  },
-  {
-    path: "favorites",
-    element: <FavoritesPage />,
-  },
-  {
-    path: "cart",
-    element: <CartPage />,
+    element: <Root />,
+    children: [
+      {
+        index: true,
+        element: <HomePage />,
+      },
+      {
+        path: "recipe/:id",
+        element: <RecipePage />,
+      },
+      {
+        path: "new-recipe",
+        element: <NewRecipe />,
+      },
+      {
+        path: "favorites",
+        element: <FavoritesPage />,
+      },
+      {
+        path: "cart",
+        element: <CartPage />,
+      },
+      {
+        path: "search",
+        element: <SearchPage />,
+      },
+    ],
   },
 ]);
 

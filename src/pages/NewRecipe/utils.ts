@@ -14,7 +14,7 @@ export async function compressImageAndConvertToBase64(
   if (!imageFile) return "";
 
   const options = {
-    maxSizeMB: 0.05,
+    maxSizeMB: 0.025,
     maxWidthOrHeight: 1920,
     useWebWorker: true,
   };

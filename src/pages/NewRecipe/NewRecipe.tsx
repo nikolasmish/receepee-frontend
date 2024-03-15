@@ -1,4 +1,3 @@
-import { FullLayout } from "@/layouts";
 import { useMutation } from "react-query";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
@@ -141,10 +140,10 @@ const NewRecipe = () => {
   }
 
   return (
-    <FullLayout withSearch={false}>
+    <div>
       {isLoading ||
         (isSuccess && (
-          <div className="absolute w-screen h-screen bg-gray-50 top-0 bottom-0 left-0 right-0 z-30  flex items-center justify-center opacity-75">
+          <div className="fixed overflow-hidden w-screen h-screen bg-gray-50 top-0 bottom-0 left-0 right-0 z-30 flex items-center justify-center opacity-75">
             <Spinner className="opacity-100 sm:ml-64" />
           </div>
         ))}
@@ -234,7 +233,7 @@ const NewRecipe = () => {
           </form>
         </Form>
       </FormProvider>
-    </FullLayout>
+    </div>
   );
 };
 

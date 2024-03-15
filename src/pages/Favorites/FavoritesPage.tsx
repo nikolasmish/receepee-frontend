@@ -1,5 +1,4 @@
 import Spinner from "@/components/ui/spinner";
-import { FullLayout } from "@/layouts";
 import { Recipe } from "@/types/globals";
 import { useQuery } from "react-query";
 import { Link } from "react-router-dom";
@@ -24,8 +23,8 @@ const FavoritesPage = () => {
   );
 
   return (
-    <FullLayout>
-      {isError && <p>There was an error loading that recipe.</p>}
+    <div>
+      {isError && <p>There was an error loading favorite recipes.</p>}
       {isLoading && <Spinner />}
       {favorites && (
         <div className="flex flex-col gap-4">
@@ -54,7 +53,7 @@ const FavoritesPage = () => {
           </div>
         </div>
       )}
-    </FullLayout>
+    </div>
   );
 };
 

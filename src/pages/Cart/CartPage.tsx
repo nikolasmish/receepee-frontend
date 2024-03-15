@@ -7,7 +7,6 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
-import { FullLayout } from "@/layouts";
 import { useCartStore } from "@/store/cartStore";
 import { BsTrash } from "react-icons/bs";
 import { Link } from "react-router-dom";
@@ -17,10 +16,8 @@ const CartPage = () => {
   const cart = useCartStore((state) => state.cart);
   const removeFromCart = useCartStore((state) => state.removeFromCart);
 
-  console.log(cart);
-
   return (
-    <FullLayout>
+    <div>
       <Breadcrumb className="mb-4">
         <BreadcrumbList>
           <BreadcrumbItem>
@@ -74,7 +71,7 @@ const CartPage = () => {
           to show them here.
         </p>
       )}
-    </FullLayout>
+    </div>
   );
 };
 
